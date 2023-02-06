@@ -148,6 +148,7 @@ RUN chown "$DOCKER_USER:$DOCKER_USER" /home/prepareServer.sh && \
 	chown "$DOCKER_USER:$DOCKER_USER" /home/initConfig.sh && \
 	chown "$DOCKER_USER:$DOCKER_USER" /home/forceWorkshopDownload.sh && \
 	chown "$DOCKER_USER:$DOCKER_USER" /home/installAndMountAddons.sh && \
+  mkdir -p "$STEAM_PATH/public_html" && chown "$DOCKER_USER:$DOCKER_USER" "$STEAM_PATH/public_html" && \
 	chmod a=rx /home/prepareServer.sh && \
 	chmod a=rx /home/initConfig.sh && \
 	chmod a=rx /home/forceWorkshopDownload.sh && \
@@ -178,3 +179,4 @@ COPY "TTT/server.cfg.default" "/home/server.cfg.default"
 USER "$USER_ID:$GROUP_ID"
 
 VOLUME "$SERVER_PATH"
+VOLUME "$STEAM_PATH/public_html"

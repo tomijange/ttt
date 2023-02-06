@@ -14,7 +14,7 @@ function configReplace() {
 	source="$1"
 	target="\"$2\""
 	
-	count=$(grep -Poc "($source).+" "${CFG_PATH}")
+	count=$(grep -Poc "($source).+" "${CFG_PATH}" || true)
 	
 	echo "[initConfig.sh]Request for replacing $source to $target, source is found $count times"
 	
@@ -39,6 +39,16 @@ if [ ! -e "${CFG_PATH}" ] || [ "0" = "$(grep -oc '[^[:space:]]' "${CFG_PATH}")" 
 	chown "$USER_ID:$GROUP_ID" "${CFG_PATH}"
 	chmod u+rw "${CFG_PATH}"
 fi
+
+# dynamic variable
+for VARIABLE in $(printenv | grep "^GCFG_")
+do
+	NAME=${VARIABLE//GCFG_/}
+	value=${NAME#*=}
+  name=${NAME%%=*}
+
+	configReplace "$name" "$value"
+done
 
 # set hostname & password, working if only one entry is in
 if [ -n "${SERVER_NAME}" ]; then

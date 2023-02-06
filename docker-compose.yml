@@ -1,21 +1,36 @@
+version: "3.2"
+
 volumes:
-  TTTDev:
+  public_html:
+
 
 services:
   ttt:
-    build: .
+    build: TTT/
+    env_file:
+      - .env
     ports:
       - 27015:27015/tcp
       - 27015:27015/udp
     environment:
       INSTALL_CSS: "true"
-      SERVER_DEFAULT_MAP: ttt_lttp_kakariko_a4
+      SERVER_DEFAULT_MAP: ttt_minecraft_b5
       SERVER_PORT: 27015
-      SERVER_NAME: "Example Name"
-      SERVER_PASSWORD: securePassword
+      SERVER_NAME: "Tee Tee Tee 🧉☕"
+      SERVER_PASSWORD: "test"
       SERVER_VOICE_ENABLE: 0
       SERVER_MAX_PLAYERS: 20
       SERVER_RCON_PASSWORD: securePassword
-      WORKSHOP_COLLECTION_ID: 1895900191
+      WORKSHOP_COLLECTION_ID: 2387853501
+      WORKSHOP_API_KEY: 503254778ED8608EBDEF96241B1759AE
     volumes:
-      - TTTDev:/home/steam/serverfiles
+      - /var/docker/ttt:/home/steam/serverfiles
+      - public_html:/home/steam/public_html
+  fastdl:
+    build: ./fastdl
+    depends_on:
+     - ttt
+    ports:
+     - 8080:80
+    volumes:
+      - public_html:/usr/local/apache2/public_html:ro

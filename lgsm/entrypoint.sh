@@ -42,6 +42,7 @@ if [ -e "/home/prepareServer.sh" ]; then
 fi
 
 
+(yes || true) | ./"$SERVER_EXECUTABLE" fastdl
 
 
 
